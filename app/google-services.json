@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1001993502766",
+    "project_id": "esp32-72a2e",
+    "storage_bucket": "esp32-72a2e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001993502766:android:d2577c347ee676a563dfbf",
+        "android_client_info": {
+          "package_name": "com.example.rioalert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EkrYWy_nwiITYx2xapmzUnygvJv6p3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
