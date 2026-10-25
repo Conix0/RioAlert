@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="20dp"
-            android:text="Regístrate para recibir alertas de RioAlert"
+            android:text="Regístrate para recibir alertas de RiverAlert"
             android:textColor="@color/texto_secundario"
             android:textSize="14sp" />
 
@@ -202,7 +202,7 @@
             android:layout_marginTop="18dp"
             android:gravity="center"
             android:lineSpacingExtra="2dp"
-            android:text="Al continuar, aceptás los términos de uso y la política de privacidad de RioAlert"
+            android:text="Al continuar, aceptás los términos de uso y la política de privacidad de RiverAlert"
             android:textColor="@color/texto_secundario"
             android:textSize="12sp" />
 

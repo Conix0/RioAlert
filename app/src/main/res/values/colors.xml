@@ -9,4 +9,9 @@
     <color name="input_borde">#D5D0C3</color>
     <color name="texto_secundario">#5E6C63</color>
     <color name="texto_principal">#13382C</color>
+
+
+    <color name="card_bg_claro">#F2F5F8</color>
+    <color name="verde_badge">#00B074</color>
+    <color name="verde_tarjeta_suave">#A9C2AD</color>
 </resources>
