@@ -30,15 +30,20 @@
             android:enabled="true"
             android:exported="true" />
 
-        <!-- Pantalla de Login (Inicia primero) -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".LandingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Pantalla de Login  -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"/>
+
 
         <!-- Pantalla de Registro -->
         <activity
@@ -48,6 +53,10 @@
         <!-- Pantalla Principal del Río y Mapa -->
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ZonaActivity"
             android:exported="false" />
 
     </application>
