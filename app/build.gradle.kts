@@ -53,4 +53,10 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
 
     implementation("org.osmdroid:osmdroid-android:6.1.18")
+    // 1. Google Maps Android API Utility Library (para PolyUtil y LatLng)
+    implementation("com.google.maps.android:android-maps-utils:3.8.2")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+
+  // 2. Google Play Services Location (para Geofencing)
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 }

@@ -2,15 +2,14 @@ package com.example.rioalert;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Patterns;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,114 +18,68 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText etNombre, etTelefono, etEmail, etPassword;
-    private MaterialButton btnRegister, btnLogin, btnGoogleAuth;
-
-    // Instancia de Firebase Auth y Realtime Database
+    private EditText etNombre, etTelefono, etEmail, etPassword;
+    private Button btnRegistrarse;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register); // O el nombre de tu XML de registro
 
-        // Inicializar Firebase
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("USUARIOS");
-
-        // Vincular vistas con los IDs del layout XML
+        // 1. Vincula con los IDs de tu XML
         etNombre = findViewById(R.id.etNombre);
         etTelefono = findViewById(R.id.etTelefono);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        btnRegistrarse = findViewById(R.id.btnRegister);
 
-        btnRegister = findViewById(R.id.btnRegister);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnGoogleAuth = findViewById(R.id.btnGoogleAuth);
+        mAuth = FirebaseAuth.getInstance();
 
-        // Listener botón registrarse
-        btnRegister.setOnClickListener(v -> registrarUsuario());
+        // 2. Acción al tocar Registrarse
+        btnRegistrarse.setOnClickListener(v -> {
+            String nombre = etNombre.getText().toString().trim();
+            String telefono = etTelefono.getText().toString().trim();
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
 
-        // Listener botón iniciar sesión: abre LoginActivity
-        btnLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        });
+            if (email.isEmpty() || password.isEmpty() || nombre.isEmpty()) {
+                Toast.makeText(this, "Completa los campos obligatorios", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        // Listener botón Google
-        btnGoogleAuth.setOnClickListener(v -> {
-            Toast.makeText(RegisterActivity.this, "Próximamente: Autenticación con Google", Toast.LENGTH_SHORT).show();
-        });
-    }
+            // Crear el usuario en Authentication
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                String uid = user.getUid();
 
-    private void registrarUsuario() {
-        String nombre = etNombre.getText() != null ? etNombre.getText().toString().trim() : "";
-        String telefono = etTelefono.getText() != null ? etTelefono.getText().toString().trim() : "";
-        String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
-        String password = etPassword.getText() != null ? etPassword.getText().toString().trim() : "";
+                                // Guardar nombre, teléfono y correo en Realtime Database
+                                Map<String, Object> userData = new HashMap<>();
+                                userData.put("nombre", nombre);
+                                userData.put("telefono", telefono);
+                                userData.put("email", email);
 
-        // Validaciones de campos obligatorios
-        if (TextUtils.isEmpty(nombre)) {
-            etNombre.setError("Ingresá tu nombre");
-            etNombre.requestFocus();
-            return;
-        }
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Usuarios");
+                                ref.child(uid).setValue(userData)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
 
-        if (TextUtils.isEmpty(email)) {
-            etEmail.setError("Ingresá tu correo electrónico");
-            etEmail.requestFocus();
-            return;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("Ingresá un correo electrónico válido");
-            etEmail.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError("Ingresá una contraseña");
-            etPassword.requestFocus();
-            return;
-        }
-
-        if (password.length() < 6) {
-            etPassword.setError("La contraseña debe tener al menos 6 caracteres");
-            etPassword.requestFocus();
-            return;
-        }
-
-        // Crear usuario en Firebase Authentication
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
-
-                        if (userId != null) {
-                            // Guardar datos adicionales (nombre, teléfono opcional, email) en la base de datos
-                            Map<String, Object> usuarioMap = new HashMap<>();
-                            usuarioMap.put("nombre", nombre);
-                            usuarioMap.put("email", email);
-                            usuarioMap.put("telefono", TextUtils.isEmpty(telefono) ? "No especificado" : telefono);
-
-                            mDatabase.child(userId).setValue(usuarioMap)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(RegisterActivity.this, "¡Registro exitoso!", Toast.LENGTH_SHORT).show();
-                                        // Redirigir a MainActivity (panel principal del río y mapa)
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(RegisterActivity.this, "Error al guardar perfil: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                    });
+                                            // Redirigir a la pantalla principal
+                                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(this, "Error al guardar perfil: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                        });
+                            }
+                        } else {
+                            Toast.makeText(this, "Error de registro: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        String error = task.getException() != null ? task.getException().getMessage() : "Error al registrarse";
-                        Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_LONG).show();
-                    }
-                });
+                    });
+        });
     }
 }

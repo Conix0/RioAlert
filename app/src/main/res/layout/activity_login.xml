@@ -16,7 +16,6 @@
         android:paddingBottom="40dp"
         android:gravity="center_horizontal">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +23,6 @@
             android:textColor="@color/texto_principal"
             android:textSize="28sp"
             android:textStyle="bold" />
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +33,7 @@
             android:textColor="@color/texto_secundario"
             android:textSize="15sp" />
 
-
+        <!-- Campo: Correo electrónico -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmailLogin"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -43,26 +41,27 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="14dp"
             android:hint="Correo electrónico"
+            android:textColorHint="#5A6B5C"
+            app:hintTextColor="#1B4D3E"
             app:boxBackgroundColor="@color/input_fondo"
             app:boxCornerRadiusBottomEnd="14dp"
             app:boxCornerRadiusBottomStart="14dp"
             app:boxCornerRadiusTopEnd="14dp"
             app:boxCornerRadiusTopStart="14dp"
-            app:boxStrokeColor="@color/input_borde"
-            app:hintTextColor="@color/texto_secundario">
+            app:boxStrokeColor="@color/input_borde">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEmailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:inputType="textEmailAddress"
                 android:textColor="@color/texto_principal"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
+        <!-- Campo: Contraseña -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPasswordLogin"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -70,25 +69,26 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:hint="Contraseña"
+            android:textColorHint="#5A6B5C"
+            app:hintTextColor="#1B4D3E"
             app:boxBackgroundColor="@color/input_fondo"
             app:boxCornerRadiusBottomEnd="14dp"
             app:boxCornerRadiusBottomStart="14dp"
             app:boxCornerRadiusTopEnd="14dp"
             app:boxCornerRadiusTopStart="14dp"
             app:boxStrokeColor="@color/input_borde"
-            app:hintTextColor="@color/texto_secundario"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/texto_secundario">
+            app:passwordToggleTint="#5A6B5C">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPasswordLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:inputType="textPassword"
                 android:textColor="@color/texto_principal"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Botón Iniciar sesión -->
@@ -104,7 +104,7 @@
             app:backgroundTint="@color/verde_oscuro"
             app:cornerRadius="14dp" />
 
-
+        <!-- Botón Registrarse -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnIrARegistro"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -121,7 +121,7 @@
             app:strokeColor="@color/input_borde"
             app:strokeWidth="1dp" />
 
-
+        <!-- Botón Continuar con Google -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGoogleLogin"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

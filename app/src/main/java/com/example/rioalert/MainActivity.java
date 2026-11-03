@@ -156,4 +156,5 @@ public class MainActivity extends  AppCompatActivity {
             manager.notify(NOTIFICATION_ID, builder.build());
         }
     }
+
 }
